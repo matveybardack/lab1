@@ -14,11 +14,11 @@ violator_songs_list = [
 
 # Распечатайте общее время звучания трех песен: 'Halo', 'Enjoy the Silence' и 'Clean' в формате
 songs = ['Halo', 'Enjoy the Silence', 'Clean']
-total_time = 0
-for song in violator_songs_list:
-    if song[0] in songs:
-        total_time += song[1]
-print(f'Три песни звучат {round(total_time, 3)} минут')
+#total_time = 0
+#for song in violator_songs_list:
+#    if song[0] in songs:
+#        total_time += song[1]
+#print(f'Три песни звучат {round(total_time, 3)} минут')
 
 # Есть словарь песен группы Depeche Mode
 violator_songs_dict = {
@@ -35,5 +35,19 @@ violator_songs_dict = {
 
 # Распечатайте общее время звучания трех других песен: 'Sweetest Perfection', 'Policy of Truth' и 'Blue Dress'
 songs2 = ['Sweetest Perfection', 'Policy of Truth', 'Blue Dress']
-total_time2 = sum([violator_songs_dict[song] for song in songs2])
-print(f'А другие три песни звучат {round(total_time2, 3)} минут')
+#total_time2 = sum([violator_songs_dict[song] for song in songs2])
+#print(f'А другие три песни звучат {round(total_time2, 3)} минут')
+
+# medium
+def song_time_sum(song_arr: list, violator_songs) -> float:
+    total_time = 0.0
+    match violator_songs:
+        case dict():
+            return round(sum([violator_songs[song] for song in song_arr]), 3)
+        case list():
+            for song in violator_songs:
+                if song[0] in song_arr:
+                    total_time += song[1]
+            return round(total_time, 3)
+        case _:
+            return total_time

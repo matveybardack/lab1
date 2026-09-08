@@ -8,9 +8,12 @@
 # Порядок чисел нужно сохранить.
 
 # Пример для чисел "1 2 3" и "9"
-result = (1 + 2) * 3
+#result = (1 + 2) * 3
 # print(result)
 
 # TODO написать формулу для 1 2 3 4 5 и вывести значение на консоль
-result = 1 * (2 + 3 + 4 * 5)
-print(result)
+#result_rare = 1 * (2 + 3 + 4 * 5)
+#print(result_rare)
+
+# medium ?
+result = lambda: 1 * (2 + 3 + 4 * 5)

@@ -9,17 +9,17 @@ garden_set = set(garden)
 meadow_set = set(meadow)
 
 # Выведите на консоль все виды цветов
-all_flowers = garden_set | meadow_set
-print(all_flowers)
+all_flowers = lambda set1, set2: set1 | set2
+#print(all_flowers(garden_set, meadow_set))
 
 # Выведите на консоль те, которые растут и там и там
-both = garden_set & meadow_set
-print(both)
+both = lambda set1, set2: set1 & set2
+#print(both(garden_set, meadow_set))
 
 # Выведите на консоль те, которые растут в саду, но не растут на лугу
-only_garden = garden_set - meadow_set
-print(only_garden)
+only_garden = lambda set1, set2: set1 - set2
+#print(only_garden(garden_set, meadow_set))
 
 # Выведите на консоль те, которые растут на лугу, но не растут в саду
-only_meadow = meadow_set - garden_set
-print(only_meadow)
+only_meadow = lambda set1, set2: set2 - set1
+#print(only_meadow(garden_set, meadow_set))

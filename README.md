@@ -9,16 +9,18 @@ $$
 ### Описание проделанной работы
 Был создан цикл, в котором создается новая пара ключ-значения для инициализированного ранее словаря, для которой во вложенном цикле перебираются остальные города и для них создается вложенный словарь с парами `город-расстояние до него` .
 ```python
-distances = {}
+def city_distances(sites: dict) -> dict:
+    distances = {}
 
-# TODO здесь заполнение словаря
-for city1 in sites:
-    distances[city1] = {}
-    for city2 in sites:
-        if city1 != city2:
-            x1, y1 = sites[city1]
-            x2, y2 = sites[city2]
-            distances[city1][city2] = math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+    for city1 in sites:
+        distances[city1] = {}
+        for city2 in sites:
+            if city1 != city2:
+                x1, y1 = sites[city1]
+                x2, y2 = sites[city2]
+                distances[city1][city2] = math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+
+    return distances
 ```
 ### Результат
 ![Pasted image 20260907101944.png](img/Pasted%20image%2020260907101944.png)
@@ -38,9 +40,12 @@ $$
 ### Описание проделанной работы
 Написана формула для получения площади круга по его радиусу и формула для определения принадлежности точки кругу.
 ```python
-area = pi * radius ** 2
-distance = (point_2[0] ** 2 + point_2[1] ** 2)
-print(distance <= radius ** 2)
+def square_circle(radius) -> float:
+    return round(pi * radius ** 2, 4)
+
+def is_contains(point: tuple) -> bool:
+    distance = (point[0] ** 2 + point[1] ** 2)
+    return distance <= radius ** 2
 ```
 ### Результат
 ![d](img/Pasted%20image%2020260907103434.png)
@@ -50,7 +55,7 @@ print(distance <= radius ** 2)
 Мыслительный перебор?
 > **Рассуждения:** очевидно, что без умножения 25 не получить, тогда попробуем вычитать из 25 по единице, а разность раскладывать на множители. Цель: получить вычитаемое из диапазона целых \[1; 5\], а множители из оставшихся. Также следует учесть, что при умножении на 1 число не изменится, и её можно отбрасывать в переборе по необходимости.
 ```python
-result = 1 * (2 + 3 + 4 * 5)
+result = lambda: 1 * (2 + 3 + 4 * 5)
 ```
 ### Результат
 ![Pasted image 20260907105008.png](img/Pasted%20image%2020260907105008.png)
@@ -63,18 +68,9 @@ result = 1 * (2 + 3 + 4 * 5)
 ### Описание проделанной работы
 Использованы строковые срезы.
 ```python
-my_favorite_movies = 'Терминатор, Пятый элемент, Аватар, Чужие, Назад в будущее'
-#   первый фильм
-print(my_favorite_movies[:10])
-
-#   последний
-print(my_favorite_movies[-15:])
-
-#   второй
-print(my_favorite_movies[12:25])
-
-#   второй с конца
-print(my_favorite_movies[-22:-17])
+def films_in_order(index: int, movies: str) -> str:
+    list_movies = movies.split(', ')
+    return list_movies[index]
 ```
 ### Результат
 ![Pasted image 20260907105527.png](img/Pasted%20image%2020260907105527.png)
@@ -95,14 +91,12 @@ my_family_height = [
     ['я', 170],
 ]
 
-# Выведите на консоль рост отца в формате
-for member in my_family_height:
-    if member[0] == 'папа':
-        print(f'Рост отца - {member[1]} см')
+def family_member_height(member: str, family_height: list):
+    for mem in family_height:
+        if mem[0] == member:
+            return mem[1]
 
-# Выведите на консоль общий рост вашей семьи как сумму ростов всех членов
-total_height = sum([member[1] for member in my_family_height])
-print(f'Общий рост моей семьи - {total_height} см')
+total_family_height = lambda family_height: sum([member[1] for member in family_height])
 ```
 ### Результат
 ![Pasted image 20260907110446.png](img/Pasted%20image%2020260907110446.png)
@@ -164,16 +158,21 @@ violator_songs_dict = {
 Были созданы листы `songs` и `songs2` с названиями искомых песен, выполнен перебор списка и словаря в цикле со сравнением имен песен и листов с суммированием времени их звучания.
 ```python
 songs = ['Halo', 'Enjoy the Silence', 'Clean']
-total_time = 0
-for song in violator_songs_list:
-    if song[0] in songs:
-        total_time += song[1]
-print(f'Три песни звучат {round(total_time, 3)} минут')
-
 songs2 = ['Sweetest Perfection', 'Policy of Truth', 'Blue Dress']
 
-total_time2 = sum([violator_songs_dict[song] for song in songs2])
-print(f'А другие три песни звучат {round(total_time2, 3)} минут')
+def song_time_sum(song_arr: list, violator_songs) -> float:
+    total_time = 0.0
+    match violator_songs:
+        case dict():
+            return round(sum([violator_songs[song] for song in song_arr]), 3)
+        case list():
+            for song in violator_songs:
+                if song[0] in song_arr:
+                    total_time += song[1]
+            return round(total_time, 3)
+        case _:
+            return total_time
+
 ```
 ### Результат
 ![Pasted image 20260907180132.png](img/Pasted%20image%2020260907180132.png)
@@ -191,24 +190,24 @@ secret_message = [
 ### Описание проделанной работы
 Были использованы строковые срезы и формат строка для вывода сообщения в консоль.
 ```python
-# Ключ к расшифровке:
-#   первое слово - 4-я буква (индекс 3)
-word1 = secret_message[0][3]
+def decoder(secret_mes: list) -> str:
+    # Ключ к расшифровке:
+    #   первое слово - 4-я буква (индекс 3)
+    word1 = secret_mes[0][3]
 
-#   второе слово - буквы с 10 по 13, включительно (индексы 9:13)
-word2 = secret_message[1][9:13]
+    #   второе слово - буквы с 10 по 13, включительно (индексы 9:13)
+    word2 = secret_mes[1][9:13]
 
-#   третье слово - буквы с 6 по 15, включительно, через одну (индексы 5:15:2)
-word3 = secret_message[2][5:15:2]
+    #   третье слово - буквы с 6 по 15, включительно, через одну (индексы 5:15:2)
+    word3 = secret_mes[2][5:15:2]
 
-#   четвертое слово - буквы с 8 по 13, включительно, в обратном порядке (индексы 7:13[::-1])
-word4 = secret_message[3][7:13][::-1]
+    #   четвертое слово - буквы с 8 по 13, включительно, в обратном порядке (индексы 7:13[::-1])
+    word4 = secret_mes[3][7:13][::-1]
 
-#   пятое слово - буквы с 17 по 21, включительно, в обратном порядке (индексы 16:21[::-1])
-word5 = secret_message[4][16:21][::-1]
+    #   пятое слово - буквы с 17 по 21, включительно, в обратном порядке (индексы 16:21[::-1])
+    word5 = secret_mes[4][16:21][::-1]
 
-# Выводим расшифрованное сообщение
-print(f'{word1} {word2} {word3} {word4} {word5}')
+    return f'{word1} {word2} {word3} {word4} {word5}'
 ```
 ### Результат
 ![Pasted image 20260907180515.png](img/Pasted%20image%2020260907180515.png)
@@ -227,25 +226,19 @@ meadow = ('клевер', 'одуванчик', 'ромашка', 'клевер'
 ### Описание проделанной работы
 Для выполнения задания были использованы такие операции над множествами как объединение, пересечение и разность.
 ```python
-# Создайте множество цветов, произрастающих в саду и на лугу
-garden_set = set(garden)
-meadow_set = set(meadow)
-
-# Выведите на консоль все виды цветов
-all_flowers = garden_set | meadow_set
-print(all_flowers)
+all_flowers = lambda set1, set2: set1 | set2
+#print(all_flowers(garden_set, meadow_set))
 
 # Выведите на консоль те, которые растут и там и там
-both = garden_set & meadow_set
-print(both)
+both = lambda set1, set2: set1 & set2
+#print(both(garden_set, meadow_set))
 
 # Выведите на консоль те, которые растут в саду, но не растут на лугу
-only_garden = garden_set - meadow_set
-print(only_garden)
+only_garden = lambda set1, set2: set1 - set2
+#print(only_garden(garden_set, meadow_set))
 
 # Выведите на консоль те, которые растут на лугу, но не растут в саду
-only_meadow = meadow_set - garden_set
-print(only_meadow)
+only_meadow = lambda set1, set2: set2 - set1
 ```
 ### Результат
 ![Pasted image 20260907181206.png](img/Pasted%20image%2020260907181206.png)
@@ -276,24 +269,25 @@ shops = {
 ### Описание проделанной работы
 Словарь с ключом `магазин` был преобразован в словарь с ключом `товар`, списки из словарей были отсортированы по возрастанию цены, а затем обрезаны до двух первых словарей.
 ```python
-sweets = {}
+def products_min_price(shops: dict) -> dict:
+    sweets = {}
 
-# Собираем все продукты
-products = {}
-for shop_name, items in shops.items():
-    for item in items:
-        product_name = item['name']
-        price = item['price']
-        if product_name not in products:
-            products[product_name] = []
-        products[product_name].append({'shop': shop_name, 'price': price})
+    # Собираем все продукты
+    products = {}
+    for shop_name, items in shops.items():
+        for item in items:
+            product_name = item['name']
+            price = item['price']
+            if product_name not in products:
+                products[product_name] = []
+            products[product_name].append({'shop': shop_name, 'price': price})
 
-# Для каждого продукта выбираем 2 магазина с минимальными ценами
-for product_name, offers in products.items():
-    sorted_offers = sorted(offers, key=lambda x: x['price'])
-    sweets[product_name] = sorted_offers[:2]
+    # Для каждого продукта выбираем 2 магазина с минимальными ценами
+    for product_name, offers in products.items():
+        sorted_offers = sorted(offers, key=lambda x: x['price'])
+        sweets[product_name] = sorted_offers[:2]
 
-print(sweets)
+    return sweets
 ```
 ### Результат
 ![Pasted image 20260907181908.png](img/Pasted%20image%2020260907181908.png)
@@ -336,23 +330,108 @@ store = {
 ### Описание проделанной работы
 Выполнен перебор словаря с выводом на экран имени товара и итоговой стоимости.
 ```python
-for good_name, code in goods.items():
-    total_quantity = 0
-    total_cost = 0
-    
-    # Находим все партии этого товара на складе
-    if code in store:
-        for batch in store[code]:
-            quantity = batch['quantity']
-            price = batch['price']
-            total_quantity += quantity
-            total_cost += quantity * price
-    
-    print(f'{good_name} - {total_quantity} шт, стоимость {total_cost} руб')
+def total_price_per_good(goods: dict, store: dict) -> list:
+    list_total_price = []
 
+    for good_name, code in goods.items():
+        total_quantity = 0
+        total_cost = 0
+
+        # Находим все партии этого товара на складе
+        if code in store:
+            for batch in store[code]:
+                quantity = batch['quantity']
+                price = batch['price']
+                total_quantity += quantity
+                total_cost += quantity * price
+
+        list_total_price.append(f'{good_name} - {total_quantity} шт, стоимость {total_cost} руб')
+
+    return list_total_price
 ```
 ### Результат
 ![Pasted image 20260907182920.png](img/Pasted%20image%2020260907182920.png)
+# Medium
+## Описание проделанной работы
+Создан верхнеуровневый модуль `main` в папке medium, куда были импортированы все модули из пакета rare. Файлы были переименованы для корректного импорта (имя модуля не может начинаться с цифр).
+```python
+import sys
+from pathlib import Path
+# Добавляем корень проекта в sys.path для корректного импорта
+sys.path.append(str(Path(__file__).parent.parent))
+
+# z ytyfdb;e gbnjy
+# import rare
+
+from rare.distance import sites, city_distances
+from rare.circle import square_circle, is_contains
+from rare.operations import result
+from rare.favorite_movies import my_favorite_movies, films_in_order
+from rare.my_family import family_member_height, total_family_height, my_family_height
+from rare.zoo import final_zoo
+from rare.songs_list import songs, songs2, song_time_sum, violator_songs_list, violator_songs_dict
+from rare.secret import secret_message, decoder
+from rare.garden import garden, meadow, all_flowers, both, only_garden, only_meadow
+from rare.shopping import shops, products_min_price
+from rare.store import goods, store, total_price_per_good
+
+print('circle')
+# circle
+print(square_circle(42))
+print(is_contains((23, 34)))
+print(is_contains((30, 30)), end='\n\n')
+
+print('distance')
+# distance
+print(city_distances(sites), end='\n\n')
+
+print('operations')
+# operations
+print(result(), end='\n\n')
+
+print('favorite_movies')
+# favorite_movies
+print(films_in_order(0, my_favorite_movies))
+print(films_in_order(-1, my_favorite_movies))
+print(films_in_order(1, my_favorite_movies))
+print(films_in_order(-2, my_favorite_movies), end='\n\n')
+
+print('garden')
+# garden
+print(all_flowers(set(garden), set(meadow)))
+print(both(set(garden), set(meadow)))
+print(only_garden(set(garden), set(meadow)))
+print(only_meadow(set(garden), set(meadow)), end='\n\n')
+
+print('my_family')
+# my_family
+print(family_member_height('папа', my_family_height))
+print(total_family_height(my_family_height), end='\n\n')
+
+print('secret')
+# secret
+print(decoder(secret_message), end='\n\n')
+
+print('shopping')
+# shopping
+print(products_min_price(shops), end='\n\n')
+
+print('song_lists')
+# songs_list
+print(song_time_sum(songs, violator_songs_list))
+print(song_time_sum(songs2, violator_songs_dict), end='\n\n')
+
+print('store')
+# store
+print(total_price_per_good(goods, store), end='\n\n')
+
+print('zoo')
+# zoo
+print(f'Лев сидит в клетке номер {final_zoo.index("lion") + 1}')
+print(f'Жаворонок сидит в клетке номер {final_zoo.index("lark") + 1}')
+```
+## Результат
+![alt text](/img/image.png)
 # Шпаргалка по работе с git
 - `git init` - создать проект в текущей директории
 - `git commit <"сообщение коммита">` - создание коммита
